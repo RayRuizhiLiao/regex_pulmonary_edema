@@ -96,14 +96,23 @@ class WordMatch(object):
 
 		return self.words_mentioned_negative 
 
+def label_report(report, keywords, affirmed=True):
 
 def main(args):
 
 	df = pd.read_csv(args.negated_keywords_path, 
 					 sep="\t")
 	negated_keywords = df.to_dict()
-	print(negated_keywords['pulmonary_edema_severity'])
-	print(negated_keywords['keyword_terms'])
+	df = pd.read_csv(args.affirmed_keywords_path, 
+					 sep="\t")
+	affirmed_keywords = df.to_dict()
+
+	for filename in os.listdir(args.report_dir):
+		report_path = os.path.join(args.report_dir, filename)
+		with open(report_path, 'r') as file:
+			report = file.read()
+			print(report)
+	
 
 
 def past():
@@ -229,14 +238,27 @@ if __name__ == '__main__':
 
 	current_path = os.path.dirname(os.path.abspath(__file__))
 	default_negated_keywords_path = os.path.join(current_path, 'keywords',
-												  'miccai2020', 'keywords_negated.tsv')
+												 'miccai2020', 'keywords_negated.tsv')
+	default_affirmed_keywords_path = os.path.join(current_path, 'keywords',
+												  'miccai2020', 'keywords_affirmed.tsv')
+	default_report_dir = os.path.join(current_path, 'example_data')
+
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument(
 		'--negated_keywords_path',
 		default=default_negated_keywords_path,
-        help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
-        	 'in a negated fashion')
+		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
+			 'in a negated fashion')
+	parser.add_argument(
+		'--affirmed_keywords_path',
+		default=default_affirmed_keywords_path,
+		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
+			 'in an affirmed fashion')
+	parser.add_argument(
+		'--report_dir',
+		default=default_report_dir,
+		help='the directory that contains reports for regex labeling')
 
 	main(args=parser.parse_args())
 
