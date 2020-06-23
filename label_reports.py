@@ -5,7 +5,7 @@
 import os
 import argparse
 
-from pandas import DataFrame
+import pandas as pd
 
 # current_path = os.path.dirname(os.path.abspath(__file__))
 # negex_path = os.path.join(current_path, 'negex/negex.python/')
@@ -99,7 +99,12 @@ class WordMatch(object):
 
 def main(args):
 
-	print(args)
+	df = pd.read_csv(args.negated_keywords_path, 
+					 sep="\t")
+	negated_keywords = df.to_dict()
+	print(negated_keywords['pulmonary_edema_severity'])
+	print(negated_keywords['keyword_terms'])
+
 
 def past():
 
@@ -228,7 +233,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument(
-		'--affirmed_keywords_path',
+		'--negated_keywords_path',
 		default=default_negated_keywords_path,
         help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
         	 'in a negated fashion')

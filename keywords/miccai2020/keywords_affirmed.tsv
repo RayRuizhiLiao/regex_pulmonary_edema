@@ -1,0 +1,23 @@
+pulmonary_edema_severity	keyword_terms
+0	no pulmonary edema
+0	no vascular congestion
+0	no fluid overload
+0	no acute cardiopulmonary process
+1	cephalization
+1	mild pulmonary vascular congestion
+1	mild hilar engorgement
+1	mild vascular plethora
+2	interstitial opacities
+2	kerley
+2	interstitial edema
+2	interstitial thickeninginterstitial pulmonary edema
+2	interstitial markinginterstitial abnormality
+2	interstitial abnormalitiesinterstitial process
+3	alveolar infiltrates
+3	severe pulmonary edema
+3	perihilar infiltrates
+3	hilar infiltrates
+3	parenchymal opaciities
+3	alveolar opacities
+3	ill defined opacities
+3	ill-defined opacitiespatchy opacities
