@@ -127,11 +127,27 @@ def label_report(report, severities, keywords, tag='mentioned'):
 			if keywords_detected[keyword] == True:
 				if keyword not in severity_keywords[severity]:
 					severity_keywords[severity].append(keyword)
-				if severity>label:
-					label = severity
+					label = max(severity, label)
 
 	return label, severity_keywords
 
+def get_chf_cohort(metadata_path):
+	"""
+	Given a metadata file path, return the radiology study IDs of 
+	congestive heart failure cohort.
+	"""
+	df = pd.read_csv(metadata_path, sep="\t")
+	chf_metadata = df.to_dict()
+
+	study_ids = chf_metadata['study_id']
+	chf_flags = chf_metadata['heart_failure']
+	chf_study_ids = []
+
+	for i in range(len(study_ids)):
+		if chf_flags[i] == 1 and study_ids[i] not in chf_study_ids:
+			chf_study_ids.append(str(study_ids[i]))
+
+	return chf_study_ids
 
 def main(args):
 
@@ -145,8 +161,13 @@ def main(args):
 					 sep="\t")
 	mentioned_keywords = df.to_dict()
 
+	if args.limit_in_chf:
+		chf_study_ids = get_chf_cohort(args.chf_metadata_path)
+
 	for filename in os.listdir(args.report_dir):
 		report_path = os.path.join(args.report_dir, filename)
+		if args.limit_in_chf and filename[1:9] not in chf_study_ids:
+			continue
 		with open(report_path, 'r') as file:
 			report = file.read()
 
@@ -310,6 +331,8 @@ if __name__ == '__main__':
 	default_mentioned_keywords_path = os.path.join(current_path, 'keywords',
 												  'miccai2020', 'keywords_mentioned.tsv')
 	default_report_dir = os.path.join(current_path, 'example_data')
+	default_chf_metadata_path = os.path.join(current_path, 'mimic_cxr_heart_failure',
+									'mimic_cxr_metadata_hf.tsv')
 
 	parser = argparse.ArgumentParser()
 
@@ -332,6 +355,15 @@ if __name__ == '__main__':
 		'--report_dir',
 		default=default_report_dir,
 		help='the directory that contains reports for regex labeling')
+	parser.add_argument(
+		'--limit_in_chf',
+		default=True,
+		help='whether to limit the cohort to congestive heart failure')
+	parser.add_argument(
+		'--chf_metadata_path',
+		default=default_chf_metadata_path,
+		help='the .tsv file that has congestive heart failure diagnosis information '\
+			 'for MIMIC-CXR data')
 
 	main(args=parser.parse_args())
 
