@@ -1,0 +1,3 @@
+[submodule "mimic_cxr_heart_failure"]
+	path = mimic_cxr_heart_failure
+	url = https://github.com/RayRuizhiLiao/mimic_cxr_heart_failure
