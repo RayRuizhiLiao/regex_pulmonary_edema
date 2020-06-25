@@ -164,6 +164,12 @@ def main(args):
 	if args.limit_in_chf:
 		chf_study_ids = get_chf_cohort(args.chf_metadata_path)
 
+
+	labeled_files = {}
+	regex_labels = {}
+	c = 0
+	c_labels = [0,0,0,0]
+
 	for filename in os.listdir(args.report_dir):
 		report_path = os.path.join(args.report_dir, filename)
 		if args.limit_in_chf and filename[1:9] not in chf_study_ids:
@@ -172,34 +178,39 @@ def main(args):
 			report = file.read()
 
 			severities = [affirmed_keywords['pulmonary_edema_severity'][i] \
-			for i in range(len(affirmed_keywords['pulmonary_edema_severity']))]
+				for i in range(len(affirmed_keywords['pulmonary_edema_severity']))]
 			keywords = [affirmed_keywords['keyword_terms'][i] \
-			for i in range(len(affirmed_keywords['keyword_terms']))]
+				for i in range(len(affirmed_keywords['keyword_terms']))]
 			label_a, severity_keywords_a = label_report(report, severities,
 														keywords, tag='affirmed')
 
 			severities = [negated_keywords['pulmonary_edema_severity'][i] \
-			for i in range(len(negated_keywords['pulmonary_edema_severity']))]
+				for i in range(len(negated_keywords['pulmonary_edema_severity']))]
 			keywords = [negated_keywords['keyword_terms'][i] \
-			for i in range(len(negated_keywords['keyword_terms']))]
+				for i in range(len(negated_keywords['keyword_terms']))]
 			label_n, severity_keywords_n = label_report(report, severities,
 														keywords, tag='negated')
 
 			severities = [mentioned_keywords['pulmonary_edema_severity'][i] \
-			for i in range(len(mentioned_keywords['pulmonary_edema_severity']))]
+				for i in range(len(mentioned_keywords['pulmonary_edema_severity']))]
 			keywords = [mentioned_keywords['keyword_terms'][i] \
-			for i in range(len(mentioned_keywords['keyword_terms']))]
+				for i in range(len(mentioned_keywords['keyword_terms']))]
 			label_m, severity_keywords_m = label_report(report, severities,
 														keywords, tag='mentioned')
 
-			print(filename)
 			label = max([label_a, label_n, label_m])
-			print(label)
 			if label != -1:
+				c += 1
 				relevant_keywords = severity_keywords_a[label]
 				relevant_keywords += severity_keywords_n[label]
 				relevant_keywords += severity_keywords_m[label]
-			print(relevant_keywords)
+				labeled_files[c] = filename
+				regex_labels[c] = label
+				c_labels[label] += 1
+
+	regex_df = pd.DataFrame({'filename': labeled_files, 'regex_label': regex_labels})
+	regex_df.to_csv('tmp.tsv', sep="\t")
+	print(c_labels)
 	
 
 def past():
