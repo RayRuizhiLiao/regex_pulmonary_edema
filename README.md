@@ -21,3 +21,7 @@ We recommend that you use regex on radiology reports written during CHF visits, 
 CHF diagnosis information for [MIMIC-CXR](https://physionet.org/content/mimic-cxr/2.0.0/) can be found in the submodule of [mimic_cxr_heart_failure](https://github.com/RayRuizhiLiao/mimic_cxr_heart_failure). To add this submodule, run the following line in your git repository:
 
 <code> git submodule update --init --recursive </code>
+
+# Acknowledgement
+
+We built this regex algorithm based on the negation detection algorithm desigend by Wendy Chapman and implemented by Peter Kang.
