@@ -28,6 +28,10 @@ CHF diagnosis information for [MIMIC-CXR](https://physionet.org/content/mimic-cx
 
 <code> git submodule update --init --recursive </code>
 
+# Example Usage
+
+<code> python label_reports.py --limit_in_chf --report_dir=./example_data/ </code>
+
 # Acknowledgement
 
 We built this regex algorithm based on the negation detection algorithm desigend by Wendy Chapman et al. and implemented by Peter Kang.
