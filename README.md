@@ -12,6 +12,12 @@ S. Horng<sup>\*</sup>, R. Liao<sup>\*</sup> et al. Deep Learning to Quantify Pul
 G. Chauhan<sup>\*</sup>, R. Liao<sup>\*</sup> et al. Joint Modeling of Chest Radiographs and Radiology Reports for Pulmonary Edema Assessment. *International Conference on Medical Image Computing and Computer-Assisted Intervention*, 2020. <br />
 (<sup>\*</sup> indicates equal contribution)
 
+# MIMIC-CXR
+
+The [MIMIC Chest X-ray (MIMIC-CXR) Database](https://physionet.org/content/mimic-cxr/2.0.0/) is a large publicly available dataset of chest radiographs in DICOM format with free-text radiology reports. The dataset contains 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA.
+
+We recommend that you use regex on selected sections in the radiology reports, such as "FINDINGS", "IMPRESSION".
+
 # Congestive Heart Failure
 
 The regex keyword terms are used for pulmonary edema assessment in the context of congestive heart failure (CHF).
