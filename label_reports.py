@@ -84,7 +84,7 @@ def main(args):
 			continue
 
 		c_regex += 1
-		if c_regex%100 == 0:
+		if c_regex%1000 == 0:
 			print("{} reports have been processed!".format(c_regex))
 
 		report_path = os.path.join(args.report_dir, filename)
@@ -123,8 +123,10 @@ def main(args):
 				c_labels[label] += 1
 
 	regex_df = pd.DataFrame({'filename': labeled_files, 'regex_label': regex_labels})
-	regex_df.to_csv('tmp.tsv', sep="\t")
-	print(c_labels)
+	regex_df.to_csv('regex_results.tsv', sep="\t")
+	
+	for i in range(4):
+		print('{} reports have been labeled as level {}.'.format(c_labels[i], i))
 
 
 if __name__ == '__main__':
@@ -138,7 +140,7 @@ if __name__ == '__main__':
 												  'miccai2020', 'keywords_mentioned.tsv')
 	default_report_dir = os.path.join(current_path, 'example_data')
 	default_chf_metadata_path = os.path.join(current_path, 'mimic_cxr_heart_failure',
-									'mimic_cxr_metadata_hf.tsv')
+											 'mimic_cxr_metadata_hf.tsv')
 
 	parser = argparse.ArgumentParser()
 
