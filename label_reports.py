@@ -163,17 +163,23 @@ def main(args):
 
 	if args.limit_in_chf:
 		chf_study_ids = get_chf_cohort(args.chf_metadata_path)
-
+		print("There are {} CHF radiology studies!".format(len(chf_study_ids)))
 
 	labeled_files = {}
 	regex_labels = {}
 	c = 0
+	c_regex = 0
 	c_labels = [0,0,0,0]
 
 	for filename in os.listdir(args.report_dir):
-		report_path = os.path.join(args.report_dir, filename)
 		if args.limit_in_chf and filename[1:9] not in chf_study_ids:
 			continue
+
+		c_regex += 1
+		if c_regex%100 == 0:
+			print("{} reports have been processed!".format(c_regex))
+
+		report_path = os.path.join(args.report_dir, filename)
 		with open(report_path, 'r') as file:
 			report = file.read()
 
