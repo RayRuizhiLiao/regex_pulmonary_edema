@@ -24,4 +24,4 @@ CHF diagnosis information for [MIMIC-CXR](https://physionet.org/content/mimic-cx
 
 # Acknowledgement
 
-We built this regex algorithm based on the negation detection algorithm desigend by Wendy Chapman and implemented by Peter Kang.
+We built this regex algorithm based on the negation detection algorithm desigend by Wendy Chapman et al. and implemented by Peter Kang.
