@@ -1,5 +1,3 @@
-# import csv
-# from shutil import copyfile
 import sys
 import os
 import argparse
@@ -10,7 +8,6 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 negex_path = os.path.join(current_path, 'negex/')
 sys.path.insert(0, negex_path)
 import negex
-
 
 class WordMatch(object):
 	"""Word matching in a sentence with negation detection
@@ -374,7 +371,7 @@ if __name__ == '__main__':
 		help='the directory that contains reports for regex labeling')
 	parser.add_argument(
 		'--limit_in_chf',
-		default=True,
+		default=False, action='store_true',
 		help='whether to limit the cohort to congestive heart failure')
 	parser.add_argument(
 		'--chf_metadata_path',
