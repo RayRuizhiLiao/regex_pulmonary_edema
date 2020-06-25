@@ -7,7 +7,7 @@ import pandas as pd
 import re
 
 current_path = os.path.dirname(os.path.abspath(__file__))
-negex_path = os.path.join(current_path, 'negex/negex.python/')
+negex_path = os.path.join(current_path, 'negex/')
 sys.path.insert(0, negex_path)
 import negex
 
