@@ -4,7 +4,7 @@ Regex for extracting pulmonary edema severity from radiology reports.
 
 This repository incorporates the regex algorithms presented in the following publications:
 
-R. Liao, et al. Semi-supervised learning for quantification of pulmonary edema in chest x-ray images. *arXiv preprint arXiv:1902.10785*, 2019.
+R. Liao et al. Semi-supervised learning for quantification of pulmonary edema in chest x-ray images. *arXiv preprint arXiv:1902.10785*, 2019.
 
 S. Horng<sup>\*</sup>, R. Liao<sup>\*</sup> et al. Deep Learning to Quantify Pulmonary Edema in Chest Radiographs. *Radiology AI* (under review). <br />
 (<sup>\*</sup> indicates equal contribution)
