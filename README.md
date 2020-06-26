@@ -18,9 +18,9 @@ The [MIMIC Chest X-ray (MIMIC-CXR) Database](https://physionet.org/content/mimic
 
 We recommend that you use regex on selected sections in the radiology reports, such as "FINDINGS", "IMPRESSION".
 
-# Congestive Heart Failure
+# CHF and pulmonary edema severity
 
-The regex keyword terms are used for pulmonary edema assessment in the context of congestive heart failure (CHF).
+The regex keyword terms are used for pulmonary edema assessment in the context of congestive heart failure (CHF). We aim to extract pulmonary edema severity assessment from radiology reports as 4 ordinal levels: no edema (0), vascular congestion (1), interstitial edema (2), and alveolar edema (3). 
 
 We recommend that you use regex on radiology reports written during CHF visits, in order to limit confounding from other disease processes.
 
