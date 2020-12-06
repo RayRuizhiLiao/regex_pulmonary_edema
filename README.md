@@ -1,6 +1,6 @@
 # regex_pulmonary_edema
 
-Regex for extracting pulmonary edema severity from radiology reports.
+Regular expressions (Regex) for extracting pulmonary edema severity from radiology reports.
 
 This repository incorporates the regex algorithms presented in the following publications:
 
