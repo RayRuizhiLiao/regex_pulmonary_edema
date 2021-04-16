@@ -58,41 +58,42 @@ def extract_findings(report, keywords):
     return label
 
 
+if __name__ == '__main__':
 
-keywords = [ 
-    'acute cardiopulmonary process',
-    'focal consolidation',
-    'pleural effusion',
-    'pneumothorax',
-    'nodular opacities',
-    'pneumonia'
-]
+    keywords = [ 
+        'acute cardiopulmonary process',
+        'focal consolidation',
+        'pleural effusion',
+        'pneumothorax',
+        'nodular opacities',
+        'pneumonia'
+    ]
 
-report = \
-"""
-                              FINAL REPORT
-EXAMINATION:  CHEST (PA AND LAT)
+    report = \
+    """
+                                FINAL REPORT
+    EXAMINATION:  CHEST (PA AND LAT)
 
-INDICATION:  ___F with new onset ascites  // eval for infection
+    INDICATION:  ___F with new onset ascites  // eval for infection
 
-TECHNIQUE:  Chest PA and lateral
+    TECHNIQUE:  Chest PA and lateral
 
-COMPARISON:  None.
+    COMPARISON:  None.
 
-FINDINGS: 
+    FINDINGS: 
 
-There is no focal consolidation, pleural effusion or pneumothorax.  Bilateral
-nodular opacities that most likely represent nipple shadows. The
-cardiomediastinal silhouette is normal.  Clips project over the left lung,
-potentially within the breast. The imaged upper abdomen is unremarkable.
-Chronic deformity of the posterior left sixth and seventh ribs are noted.
+    There is no focal consolidation, pleural effusion or pneumothorax.  Bilateral
+    nodular opacities that most likely represent nipple shadows. The
+    cardiomediastinal silhouette is normal.  Clips project over the left lung,
+    potentially within the breast. The imaged upper abdomen is unremarkable.
+    Chronic deformity of the posterior left sixth and seventh ribs are noted.
 
-IMPRESSION: 
+    IMPRESSION: 
 
-No acute cardiopulmonary process.
-"""
+    No acute cardiopulmonary process.
+    """
 
 
-label = extract_findings(report, keywords)
-for i in range(len(keywords)):
-    print(f'{keywords[i]:40}\t {label[i]}')
+    label = extract_findings(report, keywords)
+    for i in range(len(keywords)):
+        print(f'{keywords[i]:40}\t {label[i]}')
