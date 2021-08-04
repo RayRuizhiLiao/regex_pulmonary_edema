@@ -1,3 +1,4 @@
+
 import os
 import sys
 
@@ -6,11 +7,15 @@ negex_path = os.path.join(current_path, 'negex/')
 sys.path.insert(0, negex_path)
 import negex
 
+irules = negex.sortRules(open(negex_path+'negex_triggers.txt', 'r').readlines())
+
+
 class WordMatch(object):
 	"""Word matching in a sentence with negation detection
 	"""
 
 	def __init__(self, sentence, words=[], case_insensitive=True):
+
 		self.sentence = sentence
 		self.words = words
 		self.case_insensitive = case_insensitive
@@ -21,7 +26,6 @@ class WordMatch(object):
 	def mention(self):
 		"""Determine which words in the given list are mentioned 
 		in the given sentence.
-
 		Returns:
 			A dictionary with words and whether or not they're mentioned.  
 		"""
@@ -43,14 +47,11 @@ class WordMatch(object):
 
 	def mention_positive(self):
 		"""Determine if the mention words are affirmed (positive)
-
 		Returns:
 			A dictionary with words and whether or not they're mentioned
 			and affirmed
 		"""
 		self.mention()
-		rfile = open(negex_path+'negex_triggers.txt', 'r')
-		irules = negex.sortRules(rfile.readlines())
 		for key in self.words_mentioned:
 			if not self.words_mentioned[key]:
 				self.words_mentioned_positive[key] = False
@@ -67,14 +68,11 @@ class WordMatch(object):
 
 	def mention_negative(self):
 		"""Determine if the mention words are negated (negative)
-
 		Returns:
 			A dictionary with words and whether or not they're mentioned
 			and negated
 		"""
 		self.mention()
-		rfile = open(negex_path+'negex_triggers.txt', 'r')
-		irules = negex.sortRules(rfile.readlines())
 		for key in self.words_mentioned:
 			if not self.words_mentioned[key]:
 				self.words_mentioned_negative[key] = False

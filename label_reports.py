@@ -4,6 +4,7 @@ import pandas as pd
 import re
 from regex_utils import WordMatch
 
+
 def label_report(report, severities, keywords, tag='mentioned'):
 	"""
 	Label a given report the pulmonary edema severity the report indicates.
@@ -18,7 +19,7 @@ def label_report(report, severities, keywords, tag='mentioned'):
 		severity_keywords: the keywords that are detected in the report associated with each severity level.
 	"""
 	label = -1
-	severity_keywords = {0:[], 1:[], 2:[], 3:[]}
+	severity_keywords = {0: [], 1: [], 2: [], 3: []}
 
 	sentences = re.split('\.|\:', report)
 	for sentence in sentences:
@@ -39,6 +40,7 @@ def label_report(report, severities, keywords, tag='mentioned'):
 
 	return label, severity_keywords
 
+
 def get_chf_cohort(metadata_path):
 	"""
 	Given a metadata file path, return the radiology study IDs of 
@@ -57,16 +59,17 @@ def get_chf_cohort(metadata_path):
 
 	return chf_study_ids
 
+
 def main(args):
 
-	df = pd.read_csv(args.negated_keywords_path, 
-					 sep="\t")
+	df = pd.read_csv(args.negated_keywords_path,
+                  sep="\t")
 	negated_keywords = df.to_dict()
-	df = pd.read_csv(args.affirmed_keywords_path, 
-					 sep="\t")
+	df = pd.read_csv(args.affirmed_keywords_path,
+                  sep="\t")
 	affirmed_keywords = df.to_dict()
-	df = pd.read_csv(args.mentioned_keywords_path, 
-					 sep="\t")
+	df = pd.read_csv(args.mentioned_keywords_path,
+                  sep="\t")
 	mentioned_keywords = df.to_dict()
 
 	if args.limit_in_chf:
@@ -75,56 +78,57 @@ def main(args):
 
 	labeled_files = {}
 	regex_labels = {}
+	relevant_keywords = {}
 	c = 0
 	c_regex = 0
-	c_labels = [0,0,0,0]
+	c_labels = [0, 0, 0, 0]
 
 	for filename in os.listdir(args.report_dir):
 		if args.limit_in_chf and filename[1:9] not in chf_study_ids:
 			continue
 
 		c_regex += 1
-		if c_regex%1000 == 0:
+		if c_regex % 1000 == 0:
 			print("{} reports have been processed!".format(c_regex))
 
 		report_path = os.path.join(args.report_dir, filename)
 		with open(report_path, 'r') as file:
 			report = file.read()
 
-			severities = [affirmed_keywords['pulmonary_edema_severity'][i] \
-				for i in range(len(affirmed_keywords['pulmonary_edema_severity']))]
-			keywords = [affirmed_keywords['keyword_terms'][i] \
-				for i in range(len(affirmed_keywords['keyword_terms']))]
+			severities = [affirmed_keywords['pulmonary_edema_severity'][i]
+                            for i in range(len(affirmed_keywords['pulmonary_edema_severity']))]
+			keywords = [affirmed_keywords['keyword_terms'][i]
+                            for i in range(len(affirmed_keywords['keyword_terms']))]
 			label_a, severity_keywords_a = label_report(report, severities,
-														keywords, tag='affirmed')
+                                               keywords, tag='affirmed')
 
-			severities = [negated_keywords['pulmonary_edema_severity'][i] \
-				for i in range(len(negated_keywords['pulmonary_edema_severity']))]
-			keywords = [negated_keywords['keyword_terms'][i] \
-				for i in range(len(negated_keywords['keyword_terms']))]
+			severities = [negated_keywords['pulmonary_edema_severity'][i]
+                            for i in range(len(negated_keywords['pulmonary_edema_severity']))]
+			keywords = [negated_keywords['keyword_terms'][i]
+                            for i in range(len(negated_keywords['keyword_terms']))]
 			label_n, severity_keywords_n = label_report(report, severities,
-														keywords, tag='negated')
+                                               keywords, tag='negated')
 
-			severities = [mentioned_keywords['pulmonary_edema_severity'][i] \
-				for i in range(len(mentioned_keywords['pulmonary_edema_severity']))]
-			keywords = [mentioned_keywords['keyword_terms'][i] \
-				for i in range(len(mentioned_keywords['keyword_terms']))]
+			severities = [mentioned_keywords['pulmonary_edema_severity'][i]
+                            for i in range(len(mentioned_keywords['pulmonary_edema_severity']))]
+			keywords = [mentioned_keywords['keyword_terms'][i]
+                            for i in range(len(mentioned_keywords['keyword_terms']))]
 			label_m, severity_keywords_m = label_report(report, severities,
-														keywords, tag='mentioned')
+                                               keywords, tag='mentioned')
 
 			label = max([label_a, label_n, label_m])
 			if label != -1:
 				c += 1
-				relevant_keywords = severity_keywords_a[label]
-				relevant_keywords += severity_keywords_n[label]
-				relevant_keywords += severity_keywords_m[label]
+				relevant_keywords[c] = severity_keywords_a[label] + \
+					severity_keywords_n[label] + severity_keywords_m[label]
 				labeled_files[c] = filename
 				regex_labels[c] = label
 				c_labels[label] += 1
 
-	regex_df = pd.DataFrame({'filename': labeled_files, 'regex_label': regex_labels})
+	regex_df = pd.DataFrame(
+		{'filename': labeled_files, 'regex_label': regex_labels, 'relevant_keywords': relevant_keywords})
 	regex_df.to_csv('regex_results.tsv', sep="\t")
-	
+
 	for i in range(4):
 		print('{} reports have been labeled as level {}.'.format(c_labels[i], i))
 
@@ -133,32 +137,32 @@ if __name__ == '__main__':
 
 	current_path = os.path.dirname(os.path.abspath(__file__))
 	default_negated_keywords_path = os.path.join(current_path, 'keywords',
-												 'miccai2020', 'keywords_negated.tsv')
+                                              'miccai2020', 'keywords_negated.tsv')
 	default_affirmed_keywords_path = os.path.join(current_path, 'keywords',
-												  'miccai2020', 'keywords_affirmed.tsv')
+                                               'miccai2020', 'keywords_affirmed.tsv')
 	default_mentioned_keywords_path = os.path.join(current_path, 'keywords',
-												  'miccai2020', 'keywords_mentioned.tsv')
+                                                'miccai2020', 'keywords_mentioned.tsv')
 	default_report_dir = os.path.join(current_path, 'example_data')
 	default_chf_metadata_path = os.path.join(current_path, 'mimic_cxr_heart_failure',
-											 'mimic_cxr_metadata_hf.tsv')
+                                          'mimic_cxr_metadata_hf.tsv')
 
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument(
-		'--negated_keywords_path',
-		default=default_negated_keywords_path,
-		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
-			 'in a negated fashion')
+            '--negated_keywords_path',
+          		default=default_negated_keywords_path,
+          		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '
+            'in a negated fashion')
 	parser.add_argument(
-		'--affirmed_keywords_path',
-		default=default_affirmed_keywords_path,
-		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
-			 'in an affirmed fashion')
+            '--affirmed_keywords_path',
+          		default=default_affirmed_keywords_path,
+          		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '
+            'in an affirmed fashion')
 	parser.add_argument(
-		'--mentioned_keywords_path',
-		default=default_mentioned_keywords_path,
-		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '\
-			 'in a mentioned fashion')
+            '--mentioned_keywords_path',
+          		default=default_mentioned_keywords_path,
+          		help='the .tsv file that has keyword terms for labeling pulmonary edema severity '
+            'in a mentioned fashion')
 	parser.add_argument(
 		'--report_dir',
 		default=default_report_dir,
@@ -168,10 +172,9 @@ if __name__ == '__main__':
 		default=False, action='store_true',
 		help='whether to limit the cohort to congestive heart failure')
 	parser.add_argument(
-		'--chf_metadata_path',
-		default=default_chf_metadata_path,
-		help='the .tsv file that has congestive heart failure diagnosis information '\
-			 'for MIMIC-CXR data')
+            '--chf_metadata_path',
+          		default=default_chf_metadata_path,
+          		help='the .tsv file that has congestive heart failure diagnosis information '
+            'for MIMIC-CXR data')
 
 	main(args=parser.parse_args())
-

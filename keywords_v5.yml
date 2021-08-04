@@ -1,0 +1,105 @@
+keywords:
+    pulmonary edema:
+        - pulmonary edema
+    fluid overload:
+        - fluid overload
+    acute cardiopulmonary process:
+        - acute cardiopulmonary process
+    vascular congestion:
+        - vascular congestion
+        - pulmonary vascular congestion
+        - vascular enlargement
+        - vascular plethora
+        - vascular engorgement
+        - vascular prominence
+        - cephalization
+    hilar congestion:
+        - hilar congestion
+        - hilar engorgement
+        - hilar prominence
+        - hilar infiltrates
+    peribronchial cuffing:
+        - peribronchial cuffing
+        - bronchial cuffing
+        - bronchial wall thickening
+    septal lines:
+        - septal lines
+        - septal line
+        - septal thickening
+        - kerley
+        - b lines
+        - b-lines
+        - b line
+    interstitial abnormality:
+        - interstitial abnormality
+        - interstitial abnormalities
+        - interstitial marking
+        - interstitial markings
+        - interstitial process
+        - interstitial thickening
+        - interstitial infiltrates
+        - interstitial edema
+        - interstitial pulmonary edema
+    air bronchograms:
+        - air bronchograms
+    parenchymal opacity:
+        - parenchymal opacity
+        - parenchymal opacification
+        - parenchymal opacities
+        - parenchymal infiltrates
+        - airspace opacity
+        - airspace opacification
+        - airspace opacities
+        - alveolar opacity
+        - alveolar opacification
+        - alveolar opacities
+        - alveolar infiltrates
+    nodular opacity:
+        - nodular opacity
+        - nodular opacification
+        - nodular opacities
+    bibasilar opacity:
+        - bibasilar opacity
+        - bibasilar opacification
+        - bibasilar opacities
+        - bibasilar infiltrates
+    perihilar opacity:
+        - perihilar opacity
+        - perihilar opacification
+        - perihilar opacities
+        - perihilar infiltrates
+    patchy opacity:
+        - patchy opacity
+        - patchy opacification
+        - patchy opacities
+    severe pulmonary edema:
+        - severe pulmonary edema
+severity:
+    0:
+        - pulmonary edema
+        - fluid overload
+        - acute cardiopulmonary process
+        - vascular congestion
+    1:
+        - vascular congestion
+        - hilar congestion
+        - peribronchial cuffing
+    2:
+        - septal lines
+        - interstitial abnormality
+    3:
+        - air bronchograms
+        - parenchymal opacity
+        - severe pulmonary edema
+finding:
+    - vascular congestion
+    - hilar congestion
+    - peribronchial cuffing
+    - septal lines
+    - interstitial abnormality
+    - air bronchograms
+    - parenchymal opacity
+    - nodular opacity
+    - bibasilar opacity
+    - perihilar opacity
+    - patchy opacity
